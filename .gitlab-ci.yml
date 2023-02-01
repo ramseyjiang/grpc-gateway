@@ -1,0 +1,16 @@
+variables:
+  GENERATE_DEPS: "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 google.golang.org/grpc/cmd/protoc-gen-go-grpc google.golang.org/protobuf/cmd/protoc-gen-go"
+
+test:
+  stage: test
+  image: homebrew/brew
+  before_script:
+    - brew install gcc@5 go protobuf
+    - go env | grep GOPATH
+    - export PATH="$PATH:$(go env GOPATH)/bin"
+    - (cd racing && go install ${GENERATE_DEPS})
+    - (cd api && go install ${GENERATE_DEPS})
+  script:
+    - "(cd racing && go generate ./... && go build)"
+    - "(cd sports && go generate ./... && go build)"
+    - "(cd api && go generate ./... && go build)"

@@ -1,0 +1,55 @@
+syntax = "proto3";
+package sports;
+
+option go_package = "/sports";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+service Sports {
+  // ListSports returns a list of all sports.
+  rpc ListSports(ListSportsRequest) returns (ListSportsResponse) {
+    option (google.api.http) = { post: "/v1/list-sports", body: "*" };
+  }
+}
+
+/* Requests/Responses */
+
+message ListSportsRequest {
+  ListSportsRequestFilter filter = 1;
+}
+
+// Response to ListSports call.
+message ListSportsResponse {
+  repeated Sport sports = 1;
+}
+
+// Filter for listing sports.
+message ListSportsRequestFilter {
+  int64 id = 1;
+  bool visible = 2;
+  string order_by = 3;
+  string column = 4;
+}
+
+/* Resources */
+
+// A sport resource.
+message Sport {
+  // ID represents a unique identifier for the sport match.
+  int64 id = 1;
+  // Name is the official name given to the sport match.
+  string name = 2;
+  // Visible represents whether or not the sport match is visible.
+  bool visible = 3;
+  // Result represents sport match result
+  string result = 4;
+  // Start is the time the sport match start.
+  google.protobuf.Timestamp start_time = 5;
+  // EndTime is the time the sport match end.
+  google.protobuf.Timestamp end_time = 6;
+  // AdvertisedStartTime is the time the sport match is advertised to run.
+  google.protobuf.Timestamp advertised_start_time = 7;
+  // status represent sport match status, if a match is end, the status is closed, otherwise, the status is open.
+  string status = 8;
+}
