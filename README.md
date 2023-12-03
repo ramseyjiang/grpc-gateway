@@ -49,7 +49,16 @@ go build && ./racing
 ➜ INFO[0000] gRPC server listening on: localhost:9000
 ```
 
-3. In another terminal window, start our api service...
+3. In a terminal window, start our racing service...
+
+```bash
+cd ./sports
+
+go build && ./sports
+➜ INFO[0000] gRPC server listening on: localhost:9001
+```
+
+4. In another terminal window, start our api service...
 
 ```bash
 cd ./api
@@ -58,7 +67,7 @@ go build && ./api
 ➜ INFO[0000] API server listening on: localhost:8000
 ```
 
-4. Make a request for races... 
+5. Make a request for races... 
 
 ```bash
 curl -X "POST" "http://localhost:8000/v1/list-races" \
